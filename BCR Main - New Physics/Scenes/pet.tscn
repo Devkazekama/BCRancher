@@ -1,6 +1,15 @@
 [gd_scene format=3 uid="uid://b5j77nv0hhgqg"]
 
 [ext_resource type="Script" uid="uid://csipufu0egxdh" path="res://Scripts/pet.gd" id="1_xibd0"]
+[ext_resource type="Script" path="res://Scripts/States/StateMachine.gd" id="1_stmach"]
+[ext_resource type="Script" path="res://Scripts/States/IdleState.gd" id="1_idlest"]
+[ext_resource type="Script" path="res://Scripts/States/WanderState.gd" id="1_wander"]
+[ext_resource type="Script" path="res://Scripts/States/SleepingState.gd" id="1_sleep"]
+[ext_resource type="Script" path="res://Scripts/States/FindingBedState.gd" id="1_fndbed"]
+[ext_resource type="Script" path="res://Scripts/States/MovingToFeederState.gd" id="1_mvfeed"]
+[ext_resource type="Script" path="res://Scripts/States/EatingState.gd" id="1_eating"]
+[ext_resource type="Script" path="res://Scripts/States/MovingToEggState.gd" id="1_mvegg"]
+[ext_resource type="Script" path="res://Scripts/States/RoostingState.gd" id="1_roost"]
 [ext_resource type="Resource" uid="uid://dl7spkbgws4jd" path="res://Data/apprentice_chick_data.tres" id="2_24jqe"]
 [ext_resource type="Shader" uid="uid://dgsnnvdqum47o" path="res://Shaders/pet.gdshader" id="2_j8hq5"]
 [ext_resource type="Texture2D" uid="uid://nlovon1sur27" path="res://Sprites/Untitled design - 2026-06-11T200316.759.png" id="2_xibd0"]
@@ -75,6 +84,34 @@ autoplay = "idle"
 autostart = true
 
 [node name="SpawnPoint" type="Marker2D" parent="." unique_id=815691624]
+
+[node name="StateMachine" type="Node" parent="." unique_id=900000000]
+script = ExtResource("1_stmach")
+
+[node name="IdleState" type="Node" parent="StateMachine" unique_id=900000001]
+script = ExtResource("1_idlest")
+
+[node name="WanderState" type="Node" parent="StateMachine" unique_id=900000002]
+script = ExtResource("1_wander")
+
+[node name="SleepingState" type="Node" parent="StateMachine" unique_id=900000003]
+script = ExtResource("1_sleep")
+
+[node name="FindingBedState" type="Node" parent="StateMachine" unique_id=900000004]
+script = ExtResource("1_fndbed")
+
+[node name="MovingToFeederState" type="Node" parent="StateMachine" unique_id=900000005]
+script = ExtResource("1_mvfeed")
+
+[node name="EatingState" type="Node" parent="StateMachine" unique_id=900000006]
+script = ExtResource("1_eating")
+
+[node name="MovingToEggState" type="Node" parent="StateMachine" unique_id=900000007]
+script = ExtResource("1_mvegg")
+
+[node name="RoostingState" type="Node" parent="StateMachine" unique_id=900000008]
+script = ExtResource("1_roost")
+
 
 [node name="InteractionRay" type="RayCast2D" parent="." unique_id=373260740]
 target_position = Vector2(0, 32)

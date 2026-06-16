@@ -11,6 +11,7 @@ class_name CreatureData
 @export var current_hunger: float = 100.0
 @export var current_energy: float = 50.0
 @export var accumulated_rest_time: float = 0.0 
+@export var last_saved_timestamp: float = 0.0
 
 @export_group("Personality & Genetics")
 ## How fast happiness increases when needs are met

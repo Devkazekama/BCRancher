@@ -34,6 +34,7 @@ var last_pos: Vector2
 var distance_accumulated: float = 0.0
 var is_trailing: bool = false
 var active_ghosts: Array[Sprite2D] = []
+var _ghost_pool: Array[Sprite2D] = []
 var sprite_node: Node2D = null
 var frames_alive: int = 0
 var base_z_index: int = 0
@@ -156,7 +157,7 @@ func _smooth_right_itself() -> void:
 
 # --- RESTORED VFX LOGIC ---
 func _handle_motion_blur(delta: float) -> void:
-	active_ghosts = active_ghosts.filter(func(g): return is_instance_valid(g) and not g.is_queued_for_deletion())
+	active_ghosts = active_ghosts.filter(func(g): return is_instance_valid(g) and not g.is_queued_for_deletion() and g.visible)
 
 	frames_alive += 1
 	if frames_alive <= 3:
@@ -213,7 +214,16 @@ func _handle_motion_blur(delta: float) -> void:
 func _spawn_ghost(spawn_pos: Vector2) -> void:
 	if sprite_node == null: return
 	
-	var ghost = Sprite2D.new()
+	var ghost: Sprite2D
+	if _ghost_pool.size() > 0:
+		ghost = _ghost_pool.pop_back()
+		ghost.visible = true
+	else:
+		ghost = Sprite2D.new()
+		ghost.z_as_relative = false
+		ghost.top_level = true
+		get_parent().add_child(ghost)
+
 	if sprite_node is AnimatedSprite2D: 
 		ghost.texture = sprite_node.sprite_frames.get_frame_texture(sprite_node.animation, sprite_node.frame)
 	elif sprite_node is Sprite2D: 
@@ -226,14 +236,15 @@ func _spawn_ghost(spawn_pos: Vector2) -> void:
 	ghost.scale = sprite_node.global_scale
 	if "flip_h" in sprite_node: ghost.flip_h = sprite_node.flip_h
 	
-	ghost.z_as_relative = false
 	ghost.z_index = base_z_index - 1
-	ghost.top_level = true
 	ghost.modulate = Color(1.0, 1.0, 1.0, start_opacity)
 	
-	get_parent().add_child(ghost)
 	active_ghosts.append(ghost)
 	
 	var tween = ghost.create_tween()
 	tween.tween_property(ghost, "modulate:a", 0.0, trail_lifetime).set_trans(Tween.TRANS_SINE)
-	tween.tween_callback(ghost.queue_free)
+	tween.tween_callback(func():
+		ghost.visible = false
+		active_ghosts.erase(ghost)
+		_ghost_pool.append(ghost)
+	)
