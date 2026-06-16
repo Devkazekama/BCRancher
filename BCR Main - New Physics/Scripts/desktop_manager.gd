@@ -3,6 +3,8 @@ class_name DesktopManager
 
 @export var entity_container: Node2D
 
+var _last_polygons: Array[PackedVector2Array] = []
+
 func _ready() -> void:
 	get_viewport().transparent_bg = true
 	Input.set_use_accumulated_input(false)
@@ -53,6 +55,21 @@ func _update_passthrough_region() -> void:
 	if polygons.size() == 0:
 		DisplayServer.window_set_mouse_passthrough([Vector2(-1, -1)])
 		return
+
+	# Quick check if polygons have changed before re-calculating everything
+	var has_changed = false
+	if polygons.size() != _last_polygons.size():
+		has_changed = true
+	else:
+		for i in range(polygons.size()):
+			if polygons[i] != _last_polygons[i]:
+				has_changed = true
+				break
+
+	if not has_changed:
+		return
+
+	_last_polygons = polygons.duplicate()
 
 	var islands = polygons.duplicate()
 	var merging = true
