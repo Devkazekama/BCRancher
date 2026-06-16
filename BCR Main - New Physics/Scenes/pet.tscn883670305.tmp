@@ -1,0 +1,76 @@
+[gd_scene format=3 uid="uid://b5j77nv0hhgqg"]
+
+[ext_resource type="Script" uid="uid://csipufu0egxdh" path="res://Scripts/pet.gd" id="1_xibd0"]
+[ext_resource type="Resource" uid="uid://dl7spkbgws4jd" path="res://apprentice_chick_data.tres" id="2_24jqe"]
+[ext_resource type="Shader" uid="uid://dgsnnvdqum47o" path="res://Shaders/pet.gdshader" id="2_j8hq5"]
+[ext_resource type="Texture2D" uid="uid://nlovon1sur27" path="res://Sprites/Untitled design - 2026-06-11T200316.759.png" id="2_xibd0"]
+[ext_resource type="Texture2D" uid="uid://c2ytkspcm7h84" path="res://Sprites/64x64 Corn Kernel Pixel Art (10).png" id="4_24jqe"]
+[ext_resource type="Texture2D" uid="uid://ds76cjpkldsqs" path="res://Sprites/64x64 Corn Kernel Pixel Art (12).png" id="6_24jqe"]
+[ext_resource type="Texture2D" uid="uid://d25po7red853h" path="res://Sprites/64x64 Corn Kernel Pixel Art (9).png" id="6_lw8kh"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_5bqq7"]
+shader = ExtResource("2_j8hq5")
+shader_parameter/blur_velocity = Vector2(0, 0)
+shader_parameter/blur_samples = 12
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_s0gbd"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_24jqe")
+}],
+"loop": true,
+"name": &"eat",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_xibd0")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("6_24jqe")
+}],
+"loop": true,
+"name": &"sleep",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("6_lw8kh")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 5.0
+}]
+
+[node name="Pet" type="CharacterBody2D" unique_id=740208723]
+z_index = 2
+z_as_relative = false
+collision_layer = 512
+collision_mask = 512
+script = ExtResource("1_xibd0")
+data = ExtResource("2_24jqe")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1926388481]
+material = SubResource("ShaderMaterial_5bqq7")
+position = Vector2(0, -32)
+sprite_frames = SubResource("SpriteFrames_s0gbd")
+animation = &"walk"
+autoplay = "idle"
+
+[node name="Timer" type="Timer" parent="." unique_id=244903772]
+autostart = true
+
+[node name="SpawnPoint" type="Marker2D" parent="." unique_id=815691624]
+
+[node name="InteractionRay" type="RayCast2D" parent="." unique_id=373260740]
+target_position = Vector2(0, 32)
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="." unique_id=192300574]
+position = Vector2(0, 1)
+polygon = PackedVector2Array(10, -12, 22, -1, -12, -1, -6, -11, -25, -21, -32, -40, -18, -49, -5, -38, 1, -46, -3, -62, 20, -65, 26, -29)

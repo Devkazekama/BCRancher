@@ -1,0 +1,27 @@
+[gd_scene format=3 uid="uid://bgnqxeirf0omf"]
+
+[ext_resource type="Texture2D" uid="uid://c67ubdp3ieydy" path="res://Sprites/64x64 Corn Kernel Pixel Art.png" id="1_0nf1w"]
+[ext_resource type="Script" uid="uid://bp6vvxv1figci" path="res://Scripts/PickableItem.gd" id="1_jq12m"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_jq12m"]
+radius = 16.0
+height = 56.0
+
+[node name="Corn" type="RigidBody2D" unique_id=1198813754 groups=["food"]]
+z_index = 1
+z_as_relative = false
+collision_layer = 8
+collision_mask = 9
+input_pickable = true
+mass = 0.5
+linear_damp = 0.5
+angular_damp = 1.0
+script = ExtResource("1_jq12m")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1871472193]
+texture = ExtResource("1_0nf1w")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=233788626]
+shape = SubResource("CapsuleShape2D_jq12m")
+
+[connection signal="input_event" from="." to="." method="_on_input_event"]

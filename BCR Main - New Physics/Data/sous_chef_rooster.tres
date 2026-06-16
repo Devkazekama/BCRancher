@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="CreatureData" format=3 uid="uid://druc3rtud1qa0"]
+
+[ext_resource type="Script" uid="uid://dpe8buh7qvrjj" path="res://Scripts/CreatureData.gd" id="1_11aka"]
+
+[resource]
+script = ExtResource("1_11aka")
+species_name = "Sous Chef Rooster"
+rarity = 2
+evolution_tier = 2
+walk_speed = 75.0
+metadata/_custom_type_script = "uid://dpe8buh7qvrjj"

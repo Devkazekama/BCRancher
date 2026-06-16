@@ -1,0 +1,49 @@
+[gd_scene format=3 uid="uid://nbwihinl71lt"]
+
+[ext_resource type="Script" uid="uid://c6lr8joln8tkx" path="res://Scripts/feeder.gd" id="1_rgakh"]
+[ext_resource type="Texture2D" uid="uid://dyvehx2b1aj0h" path="res://Sprites/64x64 Corn Kernel Pixel Art (3).png" id="2_k4glw"]
+[ext_resource type="Texture2D" uid="uid://dt20u1aosb7tr" path="res://Sprites/64x64 Corn Kernel Pixel Art (4).png" id="3_7dqj8"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_av6up"]
+size = Vector2(56, 6)
+
+[node name="Feeder" type="RigidBody2D" unique_id=190362896 node_paths=PackedStringArray("feed_overlay", "custom_sprite_node")]
+collision_layer = 2
+input_pickable = true
+mass = 5.0
+gravity_scale = 2.0
+linear_damp = 2.0
+angular_damp = 5.0
+script = ExtResource("1_rgakh")
+feed_overlay = NodePath("Visuals/FeedOverlaySprite")
+custom_sprite_node = NodePath("Visuals/Sprite2D")
+
+[node name="Visuals" type="Node2D" parent="." unique_id=2118930969]
+scale = Vector2(1.475, 1.475)
+
+[node name="FeedOverlaySprite" type="Sprite2D" parent="Visuals" unique_id=636602440]
+position = Vector2(12.322037, 4.0338984)
+texture = ExtResource("3_7dqj8")
+
+[node name="Sprite2D" type="Sprite2D" parent="Visuals" unique_id=834428951]
+position = Vector2(10, 1)
+scale = Vector2(1.5, 1.5)
+texture = ExtResource("2_k4glw")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="." unique_id=244794215]
+position = Vector2(-10.947994, 5.793785)
+scale = Vector2(1.4430146, 1.4160154)
+polygon = PackedVector2Array(53.714283, 26.142857, 53.714283, 16.142857, 48.714283, 10.142857, 27.714283, 10.142857, 27.714283, -23.857143, 24.714283, -31.857143, 17.714283, -36.857143, 7.714283, -37.857143, -1.285717, -36.857143, -8.285717, -31.857143, -11.285717, -23.857143, -11.285717, 20.142857, -14.285717, 20.142857, -14.285717, 26.142857)
+
+[node name="DropZone" type="Area2D" parent="." unique_id=86171766]
+collision_layer = 0
+collision_mask = 8
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DropZone" unique_id=18912990]
+position = Vector2(1, -27)
+shape = SubResource("RectangleShape2D_av6up")
+
+[node name="EatPosition" type="Marker2D" parent="." unique_id=1994084026]
+position = Vector2(44, 32)
+
+[connection signal="input_event" from="." to="." method="_on_input_event"]

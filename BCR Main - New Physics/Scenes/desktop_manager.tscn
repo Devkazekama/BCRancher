@@ -1,0 +1,63 @@
+[gd_scene format=3 uid="uid://ck71r712d0gdb"]
+
+[ext_resource type="Script" uid="uid://d1otugmh4y8i0" path="res://Scripts/desktop_manager.gd" id="1_585nu"]
+[ext_resource type="PackedScene" uid="uid://b5j77nv0hhgqg" path="res://Scenes/pet.tscn" id="2_74rwn"]
+[ext_resource type="PackedScene" uid="uid://s0t3j0buknvm" path="res://Scenes/PlantPot.tscn" id="3_kfqdm"]
+[ext_resource type="PackedScene" uid="uid://nbwihinl71lt" path="res://Scenes/Feeder.tscn" id="4_ctdne"]
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_ctdne"]
+distance = -1398.0
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_4wiqe"]
+distance = -1.0
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_y62fp"]
+distance = -2561.0
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_csanf"]
+distance = -0.99999994
+
+[node name="DesktopManager" type="Node" unique_id=1722601060 node_paths=PackedStringArray("entity_container")]
+script = ExtResource("1_585nu")
+entity_container = NodePath("WorldLayer/WorldEntityContainer")
+
+[node name="AFKCalculationTimer" type="Timer" parent="." unique_id=812194921]
+autostart = true
+
+[node name="BackgroundLayer" type="CanvasLayer" parent="." unique_id=984157587]
+layer = -1
+
+[node name="WorldLayer" type="CanvasLayer" parent="." unique_id=35188834]
+layer = 0
+
+[node name="WorldEntityContainer" type="Node2D" parent="WorldLayer" unique_id=854529171]
+z_as_relative = false
+
+[node name="PlantPot" parent="WorldLayer/WorldEntityContainer" unique_id=827973372 node_paths=PackedStringArray("sort_container") instance=ExtResource("3_kfqdm")]
+position = Vector2(2512, 1372)
+sort_container = NodePath("..")
+
+[node name="Pet" parent="WorldLayer/WorldEntityContainer" unique_id=1110865103 instance=ExtResource("2_74rwn")]
+position = Vector2(455, 1382)
+collision_priority = 3.995
+
+[node name="Feeder" parent="WorldLayer/WorldEntityContainer" unique_id=1258728696 instance=ExtResource("4_ctdne")]
+position = Vector2(529, 1361)
+
+[node name="ScreenBounds" type="StaticBody2D" parent="." unique_id=1455500408]
+
+[node name="Floor" type="CollisionShape2D" parent="ScreenBounds" unique_id=1318798010]
+position = Vector2(0, -7)
+shape = SubResource("WorldBoundaryShape2D_ctdne")
+
+[node name="LeftWall" type="CollisionShape2D" parent="ScreenBounds" unique_id=2044899693]
+rotation = 1.5707964
+shape = SubResource("WorldBoundaryShape2D_4wiqe")
+
+[node name="RightWall" type="CollisionShape2D" parent="ScreenBounds" unique_id=869235690]
+rotation = -1.5707964
+shape = SubResource("WorldBoundaryShape2D_y62fp")
+
+[node name="Ceiling" type="CollisionShape2D" parent="ScreenBounds" unique_id=205450226]
+rotation = 3.1415927
+shape = SubResource("WorldBoundaryShape2D_csanf")
